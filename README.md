@@ -26,21 +26,31 @@ The framework is separated into two main layers:
 
 1. Clone this repository.
 2. Install the dependencies:
-   ```bash
+   ```
    npm install
    ```
 3. Install Playwright browsers:
-   ```bash
+   ```
    npx playwright install
    ```
 
 ## 🎯 Usage & Configuration
 
 To set your targets, open `tests/security-fuzz.spec.ts` and modify the `TARGET_URLS` array. You can add as many URLs as you need to scan.
-   ```Typescript
+   ```
    const TARGET_URLS = [
     'http://localhost:8000/login.php',   // Example Target 1
     'http://localhost:8000/search.php',  // Example Target 2
     // '[https://staging.your-app.com/contact](https://staging.your-app.com/contact)'
    ];
    ```
+**Run the Fuzzer:**
+  ```
+  npx playwright test tests/security-fuzz.spec.ts --reporter=html
+  ```
+
+## 📊 How to Interpret the Results
+
+In this security suite, we expect the application to be secure (`Expected: false` for vulnerabilities). Therefore:
+- **🟢 PASSED:** The application successfully sanitized or rejected the malicious payload. The form is secure against this specific attack vector.
+- **🔴 FAILED:** The payload was successfully executed by the browser (XSS) or the database threw an exception/bypassed auth (SQLi). **This is a confirmed vulnerability.** Run `npx playwright show-report` to view the detailed HTML report, which includes the exact payload that triggered the failure and automatic screenshots/traces of the vulnerability in action.
